@@ -30,6 +30,30 @@
     - ssh_key
   tags: ['users','configuration']
 
+- name: Create ansible sudoers in temp directory
+  template: src=etc/sudoers.d/ansible.j2 dest=/tmp/ansible
+  with_items: users
+  tags: ['users','configuration']
+
+- name: Check ansible sudoers syntax
+  command: visudo -cf /tmp/ansible
+  register: visudo_output
+  changed_when: false
+  ignore_errors: yes
+  tags: ['users','configuration']
+
+- name: Ansible sudoers validation succeeded - move to dest
+  command: mv /tmp/ansible /etc/sudoers.d/
+  when: visudo_output|success
+  changed_when: false
+  tags: ['users','configuration']
+
+- name: Ansible sudoers validation failed - remove tmp file
+  command: rm /tmp/ansible
+  when: visudo_output|failed
+  changed_when: false
+  tags: ['users','configuration']
+
 - name: Deleted user removal
   user: name="{{item.username}}" state=absent
   with_items: users_deleted

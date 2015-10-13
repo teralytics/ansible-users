@@ -1,0 +1,6 @@
+#{{ ansible_managed }}
+
+# Ansible-managed users with NOPASSWD
+{% for user in users %}
+{% if user.nopasswd is defined and user.nopasswd %}{{ user.username }} ALL=(ALL) NOPASSWD:ALL {% endif %} 
+{% endfor %}
