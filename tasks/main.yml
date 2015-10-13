@@ -35,7 +35,6 @@
 
 - name: Create ansible sudoers in temp directory
   template: src=etc/sudoers.d/ansible.j2 dest=/tmp/ansible
-  with_items: users
   tags: ['users','configuration']
   no_log: yes
 
