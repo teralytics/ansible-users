@@ -21,6 +21,9 @@
         comment="{{item.name}}"
         uid="{{item.uid}}"
         createhome="{{'yes' if users_create_homedirs else 'no'}}"
+        move_home="{{'yes' if item.home_dir is defined else 'no'}}"
+        home="{{item.home_dir|default(omit)}}"
+
   with_items: users
   tags: ['users','configuration']
   no_log: yes
