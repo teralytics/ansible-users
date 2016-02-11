@@ -1,4 +1,5 @@
 language: python
+sudo: required
 python:
   - "2.7"
 install:
@@ -6,4 +7,3 @@ install:
 script:
   - cd tests
   - ansible-playbook --connection=local --limit=localhost --inventory-file=hosts all.yml
-
