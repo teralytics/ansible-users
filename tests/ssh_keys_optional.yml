@@ -3,7 +3,7 @@
 # SSH keys should not be required
 
 - hosts: test_runners
-  sudo: yes
+  become: yes
 
 # Test fixture data
   vars:
@@ -42,4 +42,3 @@
 # Test tear-down
   post_tasks:
     - include: cleanup.yml
-
