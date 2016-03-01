@@ -63,10 +63,10 @@
 - name: Deleted user removal
   user: name="{{item.username}}" state=absent
   with_items: users_deleted
-  tags: ['users','configuration']
+  tags: ['users','configuration','delete']
 
 - name: Deleted per-user group removal
   group: name="{{item.username}}" state=absent
   with_items: users_deleted
   when: users_create_per_user_group
-  tags: ['users','configuration']
+  tags: ['users','configuration','delete']
