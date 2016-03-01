@@ -33,12 +33,13 @@
   with_subelements:
     - "{{users}}"
     - ssh_key
-  tags: ['users','configuration']
+  tags: ['users','configuration','ssh_keys']
   no_log: "{{no_log}}"
 
 - name: Create ansible sudoers in temp directory
   template: src=etc/sudoers.d/ansible.j2 dest=/tmp/ansible
-  tags: ['users','configuration']
+  tags: ['users','configuration','sudoers']
+  changed_when: false
   no_log: "{{no_log}}"
 
 - name: Check ansible sudoers syntax
@@ -46,27 +47,27 @@
   register: visudo_output
   changed_when: false
   ignore_errors: yes
-  tags: ['users','configuration']
+  tags: ['users','configuration','sudoers']
 
 - name: Ansible sudoers validation succeeded - move to dest
   command: mv /tmp/ansible /etc/sudoers.d/
   when: visudo_output|success
   changed_when: false
-  tags: ['users','configuration']
+  tags: ['users','configuration','sudoers']
 
 - name: Ansible sudoers validation failed - remove tmp file
   command: rm /tmp/ansible
   when: visudo_output|failed
   changed_when: false
-  tags: ['users','configuration']
+  tags: ['users','configuration','sudoers']
 
 - name: Deleted user removal
   user: name="{{item.username}}" state=absent
   with_items: "{{users_deleted}}"
-  tags: ['users','configuration']
+  tags: ['users','configuration','delete']
 
 - name: Deleted per-user group removal
   group: name="{{item.username}}" state=absent
   with_items: "{{users_deleted}}"
   when: users_create_per_user_group
-  tags: ['users','configuration']
+  tags: ['users','configuration','delete']
