@@ -36,7 +36,7 @@
   tags: ['users','configuration','ssh_keys']
   no_log: "{{no_log}}"
 
-- name: Create ansible sudoers in temp directory
+- name: Create sudoers file and validate
   template: src=etc/sudoers.d/ansible.j2 dest=/etc/sudoers.d/ansible mode=0440 validate='visudo -cf %s'
   tags: ['users','configuration','sudoers']
   no_log: "{{no_log}}"
