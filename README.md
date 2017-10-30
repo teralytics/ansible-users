@@ -65,3 +65,7 @@ in the system, and these will be removed on the next ansible run. The format
 is the same as for users to add, but the only required field is `username`.
 However, it is recommended that you also keep the `uid` field for reference so
 that numeric user ids are not accidentally reused.
+
+The home folder is deleted upon user removal. If the user still has processes
+running, this may cause an Ansible error. Force removal of the user is not
+implemented as this may leave the system in an inconsistent system status.
