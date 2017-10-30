@@ -42,12 +42,12 @@
   no_log: "{{no_log}}"
 
 - name: Deleted user removal
-  user: name="{{item.username}}" state=absent
+  user: name="{{item.username}}" state=absent remove=yes
   with_items: "{{users_deleted}}"
   tags: ['users','configuration','delete']
 
 - name: Deleted per-user group removal
-  group: name="{{item.username}}" state=absent
+  group: name="{{item.username}}" state=absent remove=yes
   with_items: "{{users_deleted}}"
   when: users_create_per_user_group
   tags: ['users','configuration','delete']
