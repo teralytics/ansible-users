@@ -9,7 +9,6 @@
   with_items: "{{users}}"
   when: users_create_per_user_group
   tags: ['users','configuration']
-  no_log: "{{no_log}}"
 
 - name: User creation
   user: name="{{item.username}}"
@@ -26,7 +25,6 @@
 
   with_items: "{{users}}"
   tags: ['users','configuration']
-  no_log: "{{no_log}}"
 
 - name: SSH keys
   authorized_key: user="{{item.0.username}}" key="{{item.1}}" key_options="{{item.0.ssh_key_opts|default(omit)}}"
@@ -34,12 +32,10 @@
     - "{{users}}"
     - ssh_key
   tags: ['users','configuration','ssh_keys']
-  no_log: "{{no_log}}"
 
 - name: Create sudoers file and validate
   template: src=etc/sudoers.d/ansible.j2 dest=/etc/sudoers.d/ansible mode=0440 validate='visudo -cf %s'
   tags: ['users','configuration','sudoers']
-  no_log: "{{no_log}}"
 
 - name: Deleted user removal
   user: name="{{item.username}}" state=absent remove=yes
