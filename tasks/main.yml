@@ -27,7 +27,7 @@
   tags: ['users','configuration']
 
 - name: SSH keys
-  authorized_key: user="{{item.0.username}}" key="{{item.1}}" key_options="{{item.0.ssh_key_opts|default(omit)}}"
+  authorized_key: user="{{item.0.username}}" key="{{item.1}}" key_options="{{item.0.ssh_key_opts|default(omit)}}" path="{{item.0.path|default('/home/%s/.ssh/authorized_keys'|format(item.0.username))}}"
   with_subelements:
     - "{{users}}"
     - ssh_key
