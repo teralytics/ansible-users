@@ -40,7 +40,7 @@
 - name: Ensure no processes running are left for deleted users
   shell: "/usr/bin/killall -u {{item.username}} -9 || :"
   with_items: "{{users_deleted}}"
-  tags: ['users','configuration','delete', 'foo']
+  tags: ['users','configuration','delete']
 
 - name: Deleted user removal
   user: name="{{item.username}}" state=absent remove=yes
