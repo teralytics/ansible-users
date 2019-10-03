@@ -37,6 +37,11 @@
   template: src=etc/sudoers.d/ansible.j2 dest=/etc/sudoers.d/ansible mode=0440 validate='visudo -cf %s'
   tags: ['users','configuration','sudoers']
 
+- name: Ensure no processes running are left for deleted users
+  shell: "/usr/bin/killall -u {{item.username}} -9 || :"
+  with_items: "{{users_deleted}}"
+  tags: ['users','configuration','delete']
+
 - name: Deleted user removal
   user: name="{{item.username}}" state=absent remove=yes
   with_items: "{{users_deleted}}"
